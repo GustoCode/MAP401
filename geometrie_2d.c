@@ -11,7 +11,6 @@ Vecteur creerVecteur(double x, double y)
     return u ;
 }
 
-/* Renvoie un point de coordonnées x y*/
 Point creerPoint(double x, double y)
 {
     Point a ;
@@ -85,7 +84,7 @@ double norme(Vecteur u)
 
 double produitScalaire(Vecteur u1, Vecteur u2)
 {
-    return u1.x*u2.y + u1.y*u2.y; 
+    return u1.x*u2.x + u1.y*u2.y; 
 }
 
 double distance(Point a, Point b)

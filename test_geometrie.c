@@ -24,12 +24,10 @@ int main()
     printf("La norme de u_2 est %.2f (Normalement la meme que la distance entre a et b)\n", d);
 
     Vecteur u3 = sommeVect(u1,u2);
-    double x3= xVecteur(u3) ;
-    double y3= yVecteur(u3) ;
 
-    printf("La somme de u1=(%0.2f,%0.2f) à u2=(%0.2f,%0.2f) vaut (%0.2f,%0.2f)\n",x1,y1,x2,y2,x3,y3) ;
+    printf("La somme de u1=(%0.2f,%0.2f) à u2=(%0.2f,%0.2f) vaut (%0.2f,%0.2f)\n",u1.x,u1.y,u2.x,u2.y,u3.x,u3.y) ;
     u3 = differenceVect(u1,u2);
-    printf("et la difference vaut (%0.2f,%0.2f)\n ", x3,y3);
+    printf("et la difference vaut (%0.2f,%0.2f)\n ", u3.x,u3.y);
 
     Vecteur u4 = multScalaire(u2, 2.0);
     printf("u2*2 = (%.2f, %.2f)\n", u4.x, u4.y); 

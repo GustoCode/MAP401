@@ -77,13 +77,6 @@ test_image.o : test_image.c image.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-geometrie_2d.o : geometrie_2d.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module test_geometrie"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
 test_geometrie.o : test_geometrie.c geometrie_2d.h
 	@echo ""
 	@echo "---------------------------------------------"
