@@ -1,0 +1,5 @@
+#ifndef GEOMETRIE_2D
+#define GEOMETRIE_2D
+
+
+#endif GEOMETRIE_2D
