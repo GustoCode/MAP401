@@ -5,7 +5,7 @@
 # utilisation des variables internes $@ $< $^ $*
 # $@ : correspond au nom de la cible
 # $< : correspond au nom de la premiere dependance
-# $^ : correspond à toutes les dépendances
+# $^ : correspond ï¿½ toutes les dï¿½pendances
 # $* : correspond au nom du fichier sans extension 
 #       (dans les regles generiques uniquement)
 #############################################################################
@@ -27,7 +27,7 @@ INCDIR = .
 # chemin d'acces aux librairies (binaires)
 LIBDIR = .
 
-# options pour l'édition des liens
+# options pour l'ï¿½dition des liens
 LDOPTS = -L$(LIBDIR) -lm
 
 # options pour la recherche des fichiers .o et .h
@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image
+EXECUTABLES = test_image test_geometrie
 
 
 #############################################################################
@@ -45,7 +45,7 @@ EXECUTABLES = test_image
 #############################################################################
 
 ########################################################
-# la règle par défaut
+# la rï¿½gle par dï¿½faut
 all : $(EXECUTABLES)
 
 ########################################################
@@ -76,7 +76,21 @@ test_image.o : test_image.c image.h
 	@echo "Compilation du module test_image"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
-		
+
+geometrie_2d.o : geometrie_2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_geometrie"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_geometrie.o : test_geometrie.c geometrie_2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_geometrie"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
 		
 ########################################################
 # regles explicites de creation des executables
@@ -88,7 +102,15 @@ test_image : test_image.o image.o
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
+test_geometrie : test_geometrie.o geometrie_2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
 
-# regle pour "nettoyer" le répertoire
+
+
+# regle pour "nettoyer" le rï¿½pertoire
 clean:
 	rm -fR $(EXECUTABLES) *.o 

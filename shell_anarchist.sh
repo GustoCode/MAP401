@@ -1,7 +1,7 @@
-P1
-# une ligne image = une ligne du fichier
-7 9
-⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+#!/bin/bash
+
+dessin="
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠘⠉⠉⠉⠙⠛⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⠟⠁⡀⠀⠀⠀⠰⣶⣶⣤⣤⣀⠈⠪⣿⣿⣿⣿⣿⣿⡿⢿
@@ -15,4 +15,10 @@ P1
 ⣿⣏⣵⣾⣿⣦⣕⠀⠀⠉⠛⠻⠿⠿⠿⠛⠉⠀⣠⣴⣦⡀⠈⢻⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⡿⠀⢠⣅⣒⣒⣀⣀⣀⣠⣴⣾⣿⣿⣿⣿⣦⣰⠙⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⡇⢠⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
+
+# Remplacer les espaces par des 0 et les autres caractères par des 1
+dessin_transforme=$(echo "$dessin" | tr ' ' '0' | tr -c '0' '1')
+
+# Afficher le dessin transformé
+echo "$dessin_transforme"
