@@ -8,13 +8,6 @@ typedef struct Point_2D {
 
 typedef Point Vecteur;
 
-/*
-typedef struct Vecteur_2D {
-    double x;
-    double y;
-} Vecteur;
-*/
-
 /* Renvoie un vecteur de coordonnées x y*/
 Vecteur creerVecteur(double x, double y);
 
