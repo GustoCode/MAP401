@@ -69,11 +69,36 @@ Orientation tourner270 (Orientation o)
 
 }
 
+Pixel getPixelCote(Image I, Point p, Orientation o,Cote c)
+{
+    switch (o)
+    {
+    case NORD:
+        if(c==DROITE) return get_pixel_image(I,p.x + 1 , p.y - 1) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y - 1) ;
+        break;
+    case OUEST:
+        if(c==DROITE) return get_pixel_image(I,p.x , p.y - 1) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y) ;
+        break;
+    case SUD:
+        if(c==DROITE) return get_pixel_image(I,p.x , p.y) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y) ;
+        break;
+    case EST:
+        if(c==DROITE) return get_pixel_image(I,p.x + 1, p.y) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y - 1) ;
+        break;
+    }
+}
+
+
 Orientation nouvelle_orientation(Image I, Point position, Orientation o)
 {
     Pixel pG,pD ;
-    pG = get_pixel_image(I,position.x - 1 , position.y) ;
-    pG = get_pixel_image(I,position.x + 1 , position.y) ;
+
+    pG = getPixelCote(I,position,o,GAUCHE); 
+    pG = getPixelCote(I,position,o,DROITE);  
     if (pG == NOIR)
     {
         o = tourner90(o) ;
@@ -88,7 +113,7 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
 
 void memoriser_position(Point p) 
 {
-    printf("(%d,%d)\n",p.x,p.y) ;
+    printf("(%0.2f,%0.2f)\n",p.x,p.y) ;
 }
 
 
@@ -125,6 +150,7 @@ void contours_image (Image I )
     Point positionPixelDepart = trouver_pixel_depart(I) ;
     int x= positionPixelDepart.x , y=positionPixelDepart.y ;
     int x0 =x-1 ,y0 = y-1 ;
+    printf("Position de départ:(%d,%d)\n",x0,y0) ;
     Point position ;
     position.x = x0 ;
     position.y = y0 ;
