@@ -112,6 +112,7 @@ Point trouver_pixel_depart (Image I)
                 {
                     res.x = x ;
                     res.y = y ;
+                    printf("Pixel de départ:(%d,%d)\n",x,y) ;
                     return res ;
                 }
             }

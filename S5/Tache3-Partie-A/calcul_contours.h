@@ -1,3 +1,7 @@
+
+#ifndef _CALCUL_CONTOURS_H
+#define _CALCUL_CONTOURS_H
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -31,4 +35,4 @@ Point trouver_pixel_depart (Image I) ;
 void contours_image (Image I ) ;
 
 
-
+#endif 
