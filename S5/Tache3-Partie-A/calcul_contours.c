@@ -74,20 +74,20 @@ Pixel getPixelCote(Image I, Point p, Orientation o,Cote c)
     switch (o)
     {
     case NORD:
-        if(c==DROITE) return get_pixel_image(I,p.x + 1 , p.y - 1) ;
-        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y - 1) ;
+        if(c==DROITE) return get_pixel_image(I,p.x + 1 , p.y ) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y ) ;
         break;
     case OUEST:
-        if(c==DROITE) return get_pixel_image(I,p.x , p.y - 1) ;
-        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y) ;
+        if(c==DROITE) return get_pixel_image(I,p.x , p.y ) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x , p.y+1) ;
         break;
     case SUD:
-        if(c==DROITE) return get_pixel_image(I,p.x , p.y) ;
-        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y) ;
+        if(c==DROITE) return get_pixel_image(I,p.x , p.y+1) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y+1) ;
         break;
     case EST:
-        if(c==DROITE) return get_pixel_image(I,p.x + 1, p.y) ;
-        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y - 1) ;
+        if(c==DROITE) return get_pixel_image(I,p.x + 1, p.y+1) ;
+        else if (c== GAUCHE) return get_pixel_image(I,p.x+1 , p.y) ;
         break;
     }
 }
@@ -98,9 +98,14 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
     Pixel pG,pD ;
 
     pG = getPixelCote(I,position,o,GAUCHE); 
-    pG = getPixelCote(I,position,o,DROITE);  
+    if(pG==NOIR) printf("Pixel Gauche Noir\n");
+    else printf("Pixel Gauche Blanc\n");
+    pD = getPixelCote(I,position,o,DROITE);
+    if(pD==NOIR) printf("Pixel Droit Noir\n");
+    else printf("Pixel Droit Blanc\n");  
     if (pG == NOIR)
     {
+        printf("test\n");
         o = tourner90(o) ;
     }
     else if (pD == BLANC)
@@ -159,6 +164,21 @@ void contours_image (Image I )
     while (boucle)
     {
         memoriser_position(position) ;
+        switch (o)
+        {
+        case NORD:
+            printf("Orientation: Nord\n");
+            break;
+        case OUEST:
+             printf("Orientation: Ouest\n");
+            break;
+        case SUD:
+            printf("Orientation: Sud\n");
+            break;
+        case EST:
+             printf("Orientation: Est\n");
+            break;
+        }
         position = avancer(position, o) ;
         o = nouvelle_orientation(I, position, o) ;
         if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
