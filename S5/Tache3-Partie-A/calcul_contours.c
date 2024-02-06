@@ -98,14 +98,14 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
     Pixel pG,pD ;
 
     pG = getPixelCote(I,position,o,GAUCHE); 
-    if(pG==NOIR) printf("Pixel Gauche Noir\n");
-    else printf("Pixel Gauche Blanc\n");
+    /* if(pG==NOIR) printf("Pixel Gauche Noir\n");
+    else printf("Pixel Gauche Blanc\n"); */
     pD = getPixelCote(I,position,o,DROITE);
-    if(pD==NOIR) printf("Pixel Droit Noir\n");
-    else printf("Pixel Droit Blanc\n");  
+   /*  if(pD==NOIR) printf("Pixel Droit Noir\n");
+    else printf("Pixel Droit Blanc\n");   */
     if (pG == NOIR)
     {
-        printf("test\n");
+
         o = tourner90(o) ;
     }
     else if (pD == BLANC)
@@ -137,8 +137,8 @@ Point trouver_pixel_depart (Image I)
             curr = get_pixel_image(I,x,y);
             if (curr == NOIR) 
             {
-                voisin = get_pixel_image(I,x+1,y);
-                if (voisin == BLANC) ;
+                voisin = get_pixel_image(I,x,y-1) ;
+                if (voisin == BLANC) 
                 {
                     res.x = x ;
                     res.y = y ;
@@ -164,27 +164,11 @@ void contours_image (Image I )
     while (boucle)
     {
         memoriser_position(position) ;
-        switch (o)
-        {
-        case NORD:
-            printf("Orientation: Nord\n");
-            break;
-        case OUEST:
-             printf("Orientation: Ouest\n");
-            break;
-        case SUD:
-            printf("Orientation: Sud\n");
-            break;
-        case EST:
-             printf("Orientation: Est\n");
-            break;
-        }
         position = avancer(position, o) ;
         o = nouvelle_orientation(I, position, o) ;
         if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
     }
     memoriser_position(position);
-    //return position ;
 }
 
 
