@@ -77,7 +77,14 @@ test_image.o : test_image.c image.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-calcul_contours.o : calcul_contours.c calcul_contours.h image.h geometrie_2d.h types_macros.h
+sequence_point.o : sequence_point.c sequence_point.h geometrie_2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module sequence_point"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+calcul_contours.o : calcul_contours.c calcul_contours.h image.h geometrie_2d.h types_macros.h sequence_point.h 
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module calcul_contours"
@@ -101,7 +108,7 @@ test_image : test_image.o image.o
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_contours : test_contours.o image.o calcul_contours.o
+test_contours : test_contours.o image.o calcul_contours.o sequence_point.o geometrie_2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

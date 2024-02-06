@@ -5,6 +5,7 @@
 #include"image.h"
 #include "geometrie_2d.h"
 #include "calcul_contours.h"
+#include "sequence_point.h"
 
 
 Point avancer (Point p, Orientation o)
@@ -116,9 +117,10 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
     return o ;
 }
 
-void memoriser_position(Point p) 
+void memoriser_position(Point p, Liste_Point *L) 
 {
     printf("(%0.2f,%0.2f)\n",p.x,p.y) ;
+    ajouter_element_liste_Point(*L,p);
 }
 
 
@@ -148,6 +150,10 @@ Point trouver_pixel_depart (Image I)
             }
         }
     }
+    printf("Image vide, pixel de départ par défaut (0,0)");
+    x=0,y=0 ;
+    res.x = x, res.y = y ;
+    return res ;
 }
 
 void contours_image (Image I ) 
@@ -161,14 +167,21 @@ void contours_image (Image I )
     position.y = y0 ;
     Orientation o = EST ;
     int boucle = 1;
+    Liste_Point L = creer_liste_Point_vide() ;
     while (boucle)
     {
-        memoriser_position(position) ;
+        memoriser_position(position, &L) ;
         position = avancer(position, o) ;
         o = nouvelle_orientation(I, position, o) ;
         if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
     }
-    memoriser_position(position);
+    memoriser_position(position, &L) ;
+    printf("Nombre de segments : %d \n",L.taille-1);
+    if ((L.first)->data)
+    afficherPoint((L.first)->data);
+    else printf("Liste vid\n") ;
+    
+
 }
 
 

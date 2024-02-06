@@ -8,6 +8,7 @@
 #include"types_macros.h"
 #include"image.h"
 #include "geometrie_2d.h"
+#include "sequence_point.h"
 
 
 
@@ -30,7 +31,7 @@ Pixel getPixelCote(Image I, Point p, Orientation o, Cote c) ;
 Orientation nouvelle_orientation(Image I, Point position, Orientation o) ;
 
 /* écrit sur la sortie standart la position du robot */
-void memoriser_position(Point P) ;
+void memoriser_position(Point p, Liste_Point *L) ;
 
 /* Cherche naivement le premier pixel candidat pour les contours d'une image  */
 Point trouver_pixel_depart (Image I) ;

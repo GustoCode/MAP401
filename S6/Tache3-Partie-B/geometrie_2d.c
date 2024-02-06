@@ -98,3 +98,9 @@ Vecteur multScalaire(Vecteur u, double lambda)
     v = creerVecteur(u.x*lambda, u.y*lambda);
     return v;
 }
+
+void afficherPoint (Point a)
+{
+    printf("(%0.2f,%0.2f)\n",xPoint(a),yPoint(a)) ;
+    return ;
+}

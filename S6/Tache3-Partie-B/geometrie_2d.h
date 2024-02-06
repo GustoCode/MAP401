@@ -43,5 +43,7 @@ double distance(Point a, Point b);
 /* Multiplie un vecteur par un reel lambda*/
 Vecteur multScalaire(Vecteur u, double lambda);
 
+/* Affiche le point a */
+void afficherPoint (Point a) ;
 
 #endif /* GEOMETRIE_2D */
