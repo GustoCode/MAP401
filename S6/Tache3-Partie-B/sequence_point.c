@@ -44,7 +44,6 @@ Liste_Point ajouter_element_liste_Point(Liste_Point L, Point e)
 		L.last->suiv = el;
 		L.last = el;
 	}
-    printf("Ajout dans la liste") ;
 	L.taille++;
 	return L;
 }
@@ -99,3 +98,4 @@ Liste_Point supprimer_premier_element_liste_Point(Liste_Point L)
 	L.taille--;
 	return L;
 }
+

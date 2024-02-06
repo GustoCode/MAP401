@@ -120,7 +120,7 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
 void memoriser_position(Point p, Liste_Point *L) 
 {
     printf("(%0.2f,%0.2f)\n",p.x,p.y) ;
-    ajouter_element_liste_Point(*L,p);
+    *L=ajouter_element_liste_Point(*L,p);
 }
 
 
@@ -156,7 +156,7 @@ Point trouver_pixel_depart (Image I)
     return res ;
 }
 
-void contours_image (Image I ) 
+Contour contours_image (Image I ) 
 {
     Point positionPixelDepart = trouver_pixel_depart(I) ;
     int x= positionPixelDepart.x , y=positionPixelDepart.y ;
@@ -177,11 +177,20 @@ void contours_image (Image I )
     }
     memoriser_position(position, &L) ;
     printf("Nombre de segments : %d \n",L.taille-1);
-    if ((L.first)->data)
-    afficherPoint((L.first)->data);
-    else printf("Liste vid\n") ;
-    
 
+    return L ;
 }
 
+void ecrire_contour_fichier(Contour C, FILE *f)
+{
+    fprintf(f,"1\n\n");
+    fprintf(f,"%d\n",C.taille-1) ;
+
+    while(C.taille != 0 )
+    { 
+        fprintf(f,"%.02f %0.2f\n",(C.first)->data.x,(C.first)->data.y) ;
+        C = supprimer_premier_element_liste_Point(C) ; 
+    }
+    return ;
+}
 

@@ -37,7 +37,10 @@ void memoriser_position(Point p, Liste_Point *L) ;
 Point trouver_pixel_depart (Image I) ;
 
 /* Calcul du contour de l'image */
-void contours_image (Image I ) ;
+Contour contours_image (Image I ) ;
+
+/* ecriture du fichier de contours */
+void ecrire_contour_fichier(Contour C, FILE *f) ;
 
 
 #endif 

@@ -49,6 +49,8 @@ Liste_Point concatener_liste_Point(Liste_Point L1, Liste_Point L2) ;
    la fonction renvoie la liste (eventuellement) modifiee */
 Liste_Point supprimer_premier_element_liste_Point(Liste_Point L) ;
 
+void ecrire_contour(Liste_Point L) ;
+
 
 
 #endif
