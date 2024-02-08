@@ -203,7 +203,7 @@ void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
     fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n\n", L, H) ;
 
     //Premier contour
-    fprintf(f,"%.02f %0.2f moveto ",(C.first)->data.x,H-(C.first)->data.y) ; /* Déplacement vers le premier point */
+    fprintf(f,"%.02f %0.2f moveto \n",(C.first)->data.x,H-(C.first)->data.y) ; /* Déplacement vers le premier point */
     C = supprimer_premier_element_liste_Point(C) ;
     while(C.taille != 0 )
     { 
@@ -211,6 +211,7 @@ void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
         fprintf(f,"%.02f %0.2f lineto\n",(C.first)->data.x,H-(C.first)->data.y) ; 
         C = supprimer_premier_element_liste_Point(C) ; 
     }
-    fprintf(f,"\nstroke\n\nshowpage") ;
+    //fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */
+    fprintf(f,"\nstroke\n\nshowpage\n") ; /* pour faire les contours sans remplir */
     return ;
 }
