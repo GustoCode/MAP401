@@ -194,3 +194,23 @@ void ecrire_contour_fichier(Contour C, FILE *f)
     return ;
 }
 
+void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
+{
+    UINT L = largeur_image(I) ;
+    UINT H = hauteur_image(I) ;
+    /* Ecriture de l'entête du fichier */
+    fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n");
+    fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n\n", L, H) ;
+
+    //Premier contour
+    fprintf(f,"%.02f %0.2f moveto ",(C.first)->data.x,H-(C.first)->data.y) ; /* Déplacement vers le premier point */
+    C = supprimer_premier_element_liste_Point(C) ;
+    while(C.taille != 0 )
+    { 
+        /* On ajuste la coordonée de l'axe vertical puisque l'axe est dans l'autre sens*/
+        fprintf(f,"%.02f %0.2f lineto\n",(C.first)->data.x,H-(C.first)->data.y) ; 
+        C = supprimer_premier_element_liste_Point(C) ; 
+    }
+    fprintf(f,"\nstroke\n\nshowpage") ;
+    return ;
+}
