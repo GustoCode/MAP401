@@ -14,6 +14,8 @@
 
 typedef enum {NORD=0,OUEST=1,SUD=2,EST=3} Orientation;
 typedef enum {GAUCHE=0,DROITE=1,} Cote;
+typedef enum {CONTOUR=0, EPS = 1} Mode ; 
+
 
 /* Donne le point apres avoir avancé d'une case suivant l'orientation */
 Point avancer (Point p, Orientation O) ; 
@@ -31,16 +33,19 @@ Pixel getPixelCote(Image I, Point p, Orientation o, Cote c) ;
 Orientation nouvelle_orientation(Image I, Point position, Orientation o) ;
 
 /* écrit sur la sortie standart la position du robot */
-void memoriser_position(Point p, Liste_Point *L) ;
+void memoriser_position(Point p, Liste_Point *L, Image *M) ;
+
+/* Initialise l'image masque */
+Image init_masque(Image M, Image I) ;
 
 /* Cherche naivement le premier pixel candidat pour les contours d'une image  */
-Point trouver_pixel_depart (Image I) ;
+Point trouver_pixel_depart (Image I, Image M) ;
 
 /* Calcul du contour de l'image */
-Contour contours_image (Image I ) ;
+Ensemble_Contours * contours_image (Image I) ;
 
 /* ecriture du fichier de contours */
-void ecrire_contour_fichier(Contour C, FILE *f) ;
+void ecrire_contour_fichier (Ensemble_Contours *ES, FILE *f) ;
 
 /* ecritude du fichier de contours au format EPS */
 void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f) ;

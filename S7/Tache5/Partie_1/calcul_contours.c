@@ -117,14 +117,14 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
     return o ;
 }
 
-void memoriser_position(Point p, Liste_Point *L) 
+void memoriser_position(Point p, Liste_Point *L, Image *M) 
 {
+    set_pixel_image(*M,p.x,p.y,BLANC);
    // printf("(%0.2f,%0.2f)\n",p.x,p.y) ;
-    *L=ajouter_element_liste_Point(*L,p);
+    L=ajouter_element_liste_Point(L,p);
 }
 
-
-Point trouver_pixel_depart (Image I) 
+Image init_masque(Image M, Image I) 
 {
     UINT L = largeur_image(I) ;
     UINT H = hauteur_image(I) ;
@@ -140,8 +140,38 @@ Point trouver_pixel_depart (Image I)
             if (curr == NOIR) 
             {
                 voisin = get_pixel_image(I,x,y-1) ;
-                if (voisin == BLANC) 
+                if (voisin == BLANC ) 
                 {
+                    res.x = x ;
+                    res.y = y ;
+                    set_pixel_image(M,x,y,NOIR);
+                }
+            }
+        }
+    }
+    return M ;
+}
+
+Point trouver_pixel_depart (Image I, Image M) 
+{
+    UINT L = largeur_image(I) ;
+    UINT H = hauteur_image(I) ;
+    Pixel curr, voisin, masque;
+    int x ;
+    int y ;
+    Point res ;
+    for (y=1; y<(H+1); y++)
+    {
+        for (x=1; x<(L+1); x++)
+        {
+            curr = get_pixel_image(I,x,y);
+            masque = get_pixel_image(M,x,y);
+            if (curr == NOIR) 
+            {
+                voisin = get_pixel_image(I,x,y-1) ;
+                if (voisin == BLANC && masque == NOIR) /* On vérifie également si le pixel du masque est blanc */
+                {
+
                     res.x = x ;
                     res.y = y ;
                     printf("Pixel de départ:(%d,%d)\n",x,y) ;
@@ -150,46 +180,99 @@ Point trouver_pixel_depart (Image I)
             }
         }
     }
-    printf("Image vide, pixel de départ par défaut (0,0)");
-    x=0,y=0 ;
+    /* printf("Image vide, pixel de départ par défaut (L,H)");
+    x=0,y=0 ; */
     res.x = x, res.y = y ;
     return res ;
 }
 
-Contour contours_image (Image I ) 
+Point recherche_pixel_noir (Image I)
 {
-    Point positionPixelDepart = trouver_pixel_depart(I) ;
-    int x= positionPixelDepart.x , y=positionPixelDepart.y ;
-    int x0 =x-1 ,y0 = y-1 ;
-    printf("Position de départ:(%d,%d)\n",x0,y0) ;
-    Point position ;
-    position.x = x0 ;
-    position.y = y0 ;
-    Orientation o = EST ;
-    int boucle = 1;
-    Liste_Point L = creer_liste_Point_vide() ;
-    while (boucle)
+    UINT L = largeur_image(I) ;
+    UINT H = hauteur_image(I) ;
+    Pixel curr ;
+    int x ;
+    int y ;
+    for (y=1; y<(H+1); y++)
     {
-        memoriser_position(position, &L) ;
-        position = avancer(position, o) ;
-        o = nouvelle_orientation(I, position, o) ;
-        if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
+        for (x=1; x<(L+1); x++)
+        {
+            curr = get_pixel_image(I,x,y);
+            if (curr == NOIR) return creerPoint(x,y);
+        }
     }
-    memoriser_position(position, &L) ;
-    printf("Nombre de segments : %d \n",L.taille-1);
-
-    return L ;
+    x--;
+    y--;
+    return creerPoint(x,y) ;
+    /* Si seul le pixel en bas à droite de l'image est noir, son 
+    contour ne sera pas detecté */
 }
 
-void ecrire_contour_fichier(Contour C, FILE *f)
+Ensemble_Contours* contours_image (Image I) 
 {
-    fprintf(f,"1\n\n");
-    fprintf(f,"%d\n",C.taille-1) ;
+    Ensemble_Contours *ES= creer_ensemble_contours_vide();
 
-    while(C.taille != 0 )
-    { 
-        fprintf(f,"%.02f %0.2f\n",(C.first)->data.x,(C.first)->data.y) ;
-        C = supprimer_premier_element_liste_Point(C) ; 
+    Image M = creer_image(largeur_image(I), hauteur_image(I)) ;
+    M = init_masque(M,I) ;
+
+    Point rech = recherche_pixel_noir (M) ;
+
+    while (rech.x != largeur_image(M) && rech.y != hauteur_image(M))
+    {
+
+       /*  printf("rech (%f,%f)\n", rech.x, rech.y);
+        printf("ok2 \n");
+        ecrire_image(M) ; */
+        Point positionPixelDepart = trouver_pixel_depart(I,M) ;
+        int x= positionPixelDepart.x , y=positionPixelDepart.y ;
+        int x0 =x-1 ,y0 = y-1 ;
+        printf("Position de départ:(%d,%d)\n",x0,y0) ;
+        Point position ;
+        Orientation o = EST ;
+        position.x = x0 ;
+        position.y = y0 ;
+        int boucle = 1;
+        Liste_Point *L = creer_liste_Point_vide() ;
+        while (boucle)
+        {
+            memoriser_position(position, L, &M) ;
+            set_pixel_image (M,(int)position.x+1,(int)position.y+1,BLANC) ; /* On retire le pixel de l'image */
+            position = avancer(position, o) ;
+            o = nouvelle_orientation(I, position, o) ;
+            if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
+        }
+        memoriser_position(position, L,&M) ;
+        printf("Nombre de segments : %d \n",L->taille-1);
+        *ES = ajouter_tete_contours(*ES, L) ;
+
+        printf("Nombre de contours : %d\n\n", ES->nbr) ;
+        rech = recherche_pixel_noir(M) ;
+        
+    }   
+    return ES ;
+}
+
+
+
+void ecrire_contour_fichier(Ensemble_Contours *ES, FILE *f)
+{
+    fprintf(f,"%d\n\n",ES->nbr);
+    printf("Nombre d'élément de l'ensemble : %u\n\n",ES->nbr);
+    int i;
+    Contour *C = ES->head ;
+    for (i=0; i<ES->nbr ;i++)
+    {
+        fprintf(f,"\n%d\n",C->taille-1) ;
+        fprintf(f,"%d\n",i);
+
+        while(C->taille != 0 )
+        { 
+            fprintf(f,"%.02f %0.2f\n",(C->first)->data.x,(C->first)->data.y) ;
+            *C = supprimer_premier_element_liste_Point(*C) ; 
+        }
+        C = C->suiv ;
+        
+        
     }
     return ;
 }
@@ -215,3 +298,7 @@ void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
     fprintf(f,"\nstroke\n\nshowpage\n") ; /* pour faire les contours sans remplir */
     return ;
 }
+
+
+
+

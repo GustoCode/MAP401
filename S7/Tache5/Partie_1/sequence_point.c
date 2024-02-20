@@ -22,30 +22,54 @@ Cellule_Liste_Point *creer_element_liste_Point(Point v)
 	return el;
 }
 /* creer une liste vide */
-Liste_Point creer_liste_Point_vide()
+Liste_Point *creer_liste_Point_vide()
 {
-	Liste_Point L = {0, NULL, NULL};
+    Liste_Point *L = malloc(sizeof(Liste_Point)) ;
+    L->taille = 0 ;
+    L->first =NULL ;
+    L->last = NULL ;
+    L->suiv = NULL ;
 	return L;
 }
 
+Ensemble_Contours* creer_ensemble_contours_vide ()
+{
+    Ensemble_Contours *EC;
+    EC = malloc (sizeof(Ensemble_Contours));
+    Liste_Point *tete = creer_liste_Point_vide() ;
+    EC->nbr = 0 ;
+    EC->segment = 0;
+    EC->head = tete ;
+    return EC ;
+}
+
 /* ajouter l'element e en fin de la liste L, renvoie la liste L modifiee */
-Liste_Point ajouter_element_liste_Point(Liste_Point L, Point e)
+Liste_Point *ajouter_element_liste_Point(Liste_Point *L, Point e)
 {
 	Cellule_Liste_Point *el;
 	
 	el = creer_element_liste_Point(e);
-	if (L.taille == 0)
+	if (L->taille == 0)
 	{
 		/* premier element de la liste */
-		L.first = L.last = el;
+		L->first = L->last = el;
 	}
 	else
 	{
-		L.last->suiv = el;
-		L.last = el;
+		L->last->suiv = el;
+		L->last = el;
 	}
-	L.taille++;
+	L->taille++;
 	return L;
+}
+
+Ensemble_Contours ajouter_tete_contours(Ensemble_Contours ES, Liste_Point *L)//ne pas ajouter une liste vide
+{
+    L->suiv = ES.head ;
+    ES.head = L ;
+    ES.nbr ++ ;
+    ES.segment += L->taille -1 ; 
+    return ES ;
 }
 
 /* supprimer tous les elements de la liste, renvoie la liste L vide */

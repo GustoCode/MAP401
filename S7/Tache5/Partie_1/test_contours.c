@@ -9,16 +9,17 @@ int main (int argc, char ** argv)
 {
     Image I;
     FILE *f ;
-    Contour C ;
-     f = fopen(argv[2], "w");
+    Ensemble_Contours *ES ;
+    f = fopen(argv[2], "w");
 	if (f == (FILE *)NULL)
 	{
 		printf("ouverture du fichier d'écrirture (argument 2) impossible\n");
         return 0 ;
 	}
     I =lire_fichier_image(argv[1]);
-    C = contours_image(I);
-    ecrire_contour_fichier_EPS(I,C, f) ;
+    ES = contours_image(I);
+    printf ("Premier élément de la liste ajoutée : (%0.f,%0.f)\n", ES->head->first->data.x,ES->head->first->data.y );
+    ecrire_contour_fichier(ES, f) ;
     printf("\n");
     return 1 ;
 }

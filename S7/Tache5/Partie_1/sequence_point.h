@@ -19,10 +19,20 @@ typedef struct Liste_Point_
 	unsigned int taille;        /* nombre d'elements dans la liste */
 	Cellule_Liste_Point *first; /* pointeur sur le premier element de la liste */
 	Cellule_Liste_Point *last;  /* pointeur sur le dernier element de la liste */
+    struct Liste_Point_ *suiv ;        /* Pointeur vers le contours suivant */
 	                       /* first = last = NULL et taille = 0 <=> liste vide */
 } Liste_Point;
 
 typedef Liste_Point Contour; /* type Contour = type Liste_Point */
+
+typedef struct Ensemble_Contours /* Liste chainée de contours */
+{
+    int nbr ; /* Le nombre de contrours */
+    int segment ; /* Nombre de segements */
+    Contour *head ; /* pointeur vers le premier contours  */
+    
+} Ensemble_Contours ;   
+
 
 /* creer une cellule de liste avec l'element v 
    renvoie le pointeur sur la cellule de liste creee
@@ -30,11 +40,16 @@ typedef Liste_Point Contour; /* type Contour = type Liste_Point */
 Cellule_Liste_Point *creer_element_liste_Point(Point v);
 
 /* creer une liste vide */
-Liste_Point creer_liste_Point_vide() ;
+Liste_Point *creer_liste_Point_vide() ;
 
+/* creer un ensemble de contours vide */
+Ensemble_Contours *creer_ensemble_contours_vide () ;
 
 /* ajouter l'element e en fin de la liste L, renvoie la liste L modifiee */
-Liste_Point ajouter_element_liste_Point(Liste_Point L, Point e) ;
+Liste_Point *ajouter_element_liste_Point(Liste_Point *L, Point e) ;
+
+/* Ajouter à la tete d'un ensemble de contours une liste de point */
+Ensemble_Contours ajouter_tete_contours(Ensemble_Contours ES, Liste_Point *L) ;
 
 /* supprimer tous les elements de la liste, renvoie la liste L vide */
 Liste_Point supprimer_liste_Point(Liste_Point L) ;
