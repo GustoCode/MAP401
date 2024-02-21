@@ -18,7 +18,6 @@ int main (int argc, char ** argv)
 	}
     I =lire_fichier_image(argv[1]);
     ES = contours_image(I);
-    printf ("Premier élément de la liste ajoutée : (%0.f,%0.f)\n", ES->head->first->data.x,ES->head->first->data.y );
     ecrire_contour_fichier(ES, f) ;
     printf("\n");
     return 1 ;

@@ -257,7 +257,7 @@ Ensemble_Contours* contours_image (Image I)
 void ecrire_contour_fichier(Ensemble_Contours *ES, FILE *f)
 {
     fprintf(f,"%d\n\n",ES->nbr);
-    printf("Nombre d'élément de l'ensemble : %u\n\n",ES->nbr);
+    printf("Nombre d'élément de l'ensemble : %u\nNombre de segment de l'ensemble : %d\n",ES->nbr,ES->segment);
     int i;
     Contour *C = ES->head ;
     for (i=0; i<ES->nbr ;i++)
