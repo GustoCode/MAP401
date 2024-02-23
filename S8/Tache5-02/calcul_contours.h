@@ -47,7 +47,7 @@ Ensemble_Contours * contours_image (Image I) ;
 void ecrire_contour_fichier (Ensemble_Contours *ES, FILE *f) ;
 
 /* ecritude du fichier de contours au format EPS */
-void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f);
+void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f);
 
 /* ecriture des contours 
 Si EPS = true écriture des contours au format .eps

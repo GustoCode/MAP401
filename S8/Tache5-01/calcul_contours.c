@@ -261,8 +261,7 @@ void ecrire_contour_fichier(Ensemble_Contours *ES, FILE *f)
 
         while(cell) /* tant que le pointeur de cellule != NULL */
         { 
-            fprintf(f,"%.02f %0.2f\n",(C->first)->data.x,(C->first)->data.y) ;
-            *C = supprimer_premier_element_liste_Point(*C) ; 
+            fprintf(f,"%.02f %0.2f\n",cell->data.x,cell->data.y) ;
             cell = cell->suiv ;
         }
         C = C->suiv ;

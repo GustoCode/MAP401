@@ -261,8 +261,7 @@ void ecrire_contour_fichier(Ensemble_Contours *ES, FILE *f)
 
         while(cell) /* tant que le pointeur de cellule != NULL */
         { 
-            fprintf(f,"%.02f %0.2f\n",(C->first)->data.x,(C->first)->data.y) ;
-            *C = supprimer_premier_element_liste_Point(*C) ; 
+            fprintf(f,"%.02f %0.2f\n",cell->data.x,cell->data.y) ;
             cell = cell->suiv ;
         }
         C = C->suiv ;
@@ -272,22 +271,29 @@ void ecrire_contour_fichier(Ensemble_Contours *ES, FILE *f)
     return ;
 }
 
-void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
+void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
 {
     UINT L = largeur_image(I) ;
     UINT H = hauteur_image(I) ;
     /* Ecriture de l'entête du fichier */
     fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n");
-    fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n\n", L, H) ;
+    fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n",L,H) ;
 
-    //Premier contour
-    //fprintf(f,"%.02f %0.2f moveto \n",(C.first)->data.x,H-(C.first)->data.y) ; /* Déplacement vers le premier point */
-    C = supprimer_premier_element_liste_Point(C) ;
-    while(C.taille != 0 )
-    { 
-        /* On ajuste la coordonée de l'axe vertical puisque l'axe est dans l'autre sens*/
-        fprintf(f,"%.02f %0.2f lineto\n",(C.first)->data.x,H-(C.first)->data.y) ; 
-        C = supprimer_premier_element_liste_Point(C) ; 
+    Contour *C = ES->head ;
+    Cellule_Liste_Point *cell = C->first ;
+    int i ;
+
+    for (i=0; i<ES->nbr ; i++) /* Parcours des contours */
+    {
+        fprintf(f,"\n%0.2f %0.2f moveto \n",cell->data.x, H-cell->data.y );
+        cell = cell->suiv ;
+        while (cell) /* Tant que cell est non nul */ 
+        {
+            fprintf(f,"%.02f %0.2f lineto\n",cell->data.x, H-cell->data.y );
+            cell = cell->suiv ;
+        }
+        C = C->suiv ;
+        cell = C->first ;
     }
     //fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */
     fprintf(f,"\nstroke\n\nshowpage\n") ; /* pour faire les contours sans remplir */
@@ -296,7 +302,7 @@ void ecrire_contour_fichier_EPS(Image I,Contour C, FILE *f)
 
 void ecrire_contour(Image I, Ensemble_Contours *ES, FILE *f, bool EPS)
 {
-    if(EPS) printf("encore non complété"); /* Sera modifiée en partie 2 */
+    if(EPS) ecrire_contour_fichier_EPS(I,ES,f); /* Sera modifiée en partie 2 */
     else ecrire_contour_fichier(ES,f) ;
     printf("Nombre de contours : %d\nNombre de segment de l'ensemble : %d\n",ES->nbr,ES->segment);
     

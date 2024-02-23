@@ -18,7 +18,7 @@ int main (int argc, char ** argv)
 	}
     I =lire_fichier_image(argv[1]);
     ES = contours_image(I);
-    ecrire_contour(I,ES, f, false) ;
+    ecrire_contour(I,ES, f, true) ;
     printf("\n");
     return 1 ;
 }
