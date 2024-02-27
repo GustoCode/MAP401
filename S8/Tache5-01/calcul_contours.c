@@ -227,7 +227,7 @@ Ensemble_Contours* contours_image (Image I)
         while (boucle) 
         {
             memoriser_position(position, L) ;
-            set_pixel_image (M,(int)position.x+1,(int)position.y+1,BLANC) ; /* On retire le pixel de l'image */
+            if(o==EST) set_pixel_image (M,(int)position.x+1,(int)position.y+1,BLANC) ; /* On retire le pixel SE du roboy de l'image masque*/
             position = avancer(position, o) ;
             o = nouvelle_orientation(I, position, o) ;
             if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
