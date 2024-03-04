@@ -32,7 +32,7 @@ Pixel getPixelCote(Image I, Point p, Orientation o, Cote c) ;
 Orientation nouvelle_orientation(Image I, Point position, Orientation o) ;
 
 /* écrit sur la sortie standart la position du robot */
-void memoriser_position(Point p, Liste_Point *L, Image *M) ;
+void memoriser_position(Point p, Liste_Point *L) ;
 
 /* Initialise l'image masque */
 Image init_masque(Image M, Image I) ;

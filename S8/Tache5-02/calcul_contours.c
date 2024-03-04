@@ -117,9 +117,8 @@ Orientation nouvelle_orientation(Image I, Point position, Orientation o)
     return o ;
 }
 
-void memoriser_position(Point p, Liste_Point *L, Image *M) 
+void memoriser_position(Point p, Liste_Point *L) 
 {
-    set_pixel_image(*M,p.x,p.y,BLANC);
    // printf("(%0.2f,%0.2f)\n",p.x,p.y) ;
     L=ajouter_element_liste_Point(L,p);
 }
@@ -168,10 +167,9 @@ Point trouver_pixel_depart (Image I, Image M)
             masque = get_pixel_image(M,x,y);
             if (curr == NOIR) 
             {
-                voisin = get_pixel_image(I,x,y-1) ;
+                voisin = get_pixel_image(I,x,y-1) ; // voisin Pixel Nord
                 if (voisin == BLANC && masque == NOIR) /* On vérifie également si le pixel du masque est blanc */
                 {
-
                     res.x = x ;
                     res.y = y ;
                     //printf("Pixel de départ:(%d,%d)\n",x,y) ;
@@ -196,7 +194,7 @@ Point recherche_pixel_noir (Image I)
         for (x=1; x<(L+1); x++)
         {
             curr = get_pixel_image(I,x,y);
-            if (curr == NOIR) return creerPoint(x,y);
+            if (curr == NOIR) return creerPoint(x,y); 
         }
     }
     x--;
@@ -212,30 +210,30 @@ Ensemble_Contours* contours_image (Image I)
 
     Image M = creer_image(largeur_image(I), hauteur_image(I)) ;
     M = init_masque(M,I) ;
+    Point rech = recherche_pixel_noir (M) ; //Pixel de recherche
 
-    Point rech = recherche_pixel_noir (M) ;
-
-    while (rech.x != largeur_image(M) && rech.y != hauteur_image(M))
+    while (rech.x != largeur_image(M) || rech.y != hauteur_image(M))
     {
         Point positionPixelDepart = trouver_pixel_depart(I,M) ;
         int x= positionPixelDepart.x , y=positionPixelDepart.y ;
         int x0 =x-1 ,y0 = y-1 ;
         //printf("Position de départ:(%d,%d)\n",x0,y0) ;
-        Point position ;
+        Point position ; //Position du Robot
         Orientation o = EST ;
         position.x = x0 ;
         position.y = y0 ;
         int boucle = 1;
         Liste_Point *L = creer_liste_Point_vide() ;
-        while (boucle)
+        while (boucle) 
         {
-            memoriser_position(position, L, &M) ;
-            set_pixel_image (M,(int)position.x+1,(int)position.y+1,BLANC) ; /* On retire le pixel de l'image */
+            memoriser_position(position, L) ;
+            if(o==EST) set_pixel_image (M,(int)position.x+1,(int)position.y+1,BLANC) ; /* On retire le pixel SE du roboy de l'image masque*/
             position = avancer(position, o) ;
             o = nouvelle_orientation(I, position, o) ;
             if (position.x == x0 && position.y == y0 && o== EST) boucle = 0 ;
         }
-        memoriser_position(position, L,&M) ;
+        memoriser_position(position, L) ;
+        set_pixel_image (M,(int)position.x,(int)position.y,BLANC);
         //printf("Nombre de segments : %d \n",L->taille-1);
         *ES = ajouter_tete_contours(*ES, L) ;
         //printf("Nombre de contours : %d\n\n", ES->nbr) ;
@@ -244,6 +242,8 @@ Ensemble_Contours* contours_image (Image I)
     }   
     return ES ;
 }
+
+
 
 
 
@@ -295,8 +295,8 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
         C = C->suiv ;
         cell = C->first ;
     }
-    //fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */
-    fprintf(f,"\nstroke\n\nshowpage\n") ; /* pour faire les contours sans remplir */
+    fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */
+   // fprintf(f,"\nstroke\n\nshowpage\n") ; /* pour faire les contours sans remplir */
     return ;
 }
 
