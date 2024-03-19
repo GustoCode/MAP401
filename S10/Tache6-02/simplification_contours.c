@@ -7,6 +7,8 @@
 
 void simplification_douglas_peucker(Tableau_Point C, int j1, int j2, double d)
 {
+    /* Mhh peut être que finalement rester sur une liste chainée ça reste plus interessant 
+    Ok on fera un tableau de pointeurs*/
     Segment S = creerSegment(C.tab[j1],C.tab[j2]);
     double dmax = 0 ;
     int k = j1 ;
@@ -21,7 +23,10 @@ void simplification_douglas_peucker(Tableau_Point C, int j1, int j2, double d)
             k=j;
         }
     }
-    if (dmax<=d) ;// affecter à L un tableau contenant le segment S. 
+    if (dmax<=d) 
+    {
+
+    }// affecter à L un tableau contenant le segment S. 
     else
     {
     

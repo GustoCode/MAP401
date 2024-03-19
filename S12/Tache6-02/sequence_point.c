@@ -155,6 +155,8 @@ Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L)
 	return T;
 }
 
+
+/* plus nécessaire à supprimer plus tard */
 void vider_liste_remplir_par_tableau(Liste_Point *L, Tableau_Point T) 
 {
  	/* On vide la liste de ses éléments. */
@@ -172,3 +174,4 @@ void vider_liste_remplir_par_tableau(Liste_Point *L, Tableau_Point T)
     
 
 }
+

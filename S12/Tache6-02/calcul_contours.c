@@ -6,6 +6,7 @@
 #include "geometrie_2d.h"
 #include "calcul_contours.h"
 #include "sequence_point.h"
+#include "simplification_contours.h"
 
 
 Point avancer (Point p, Orientation o)
@@ -280,6 +281,7 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
     fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n",L,H) ;
 
     Contour *C = ES->head ;
+    simplification_douglas_peucker(C, 1) ;
     Cellule_Liste_Point *cell = C->first ;
     int i ;
 
@@ -293,6 +295,7 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
             cell = cell->suiv ;
         }
         C = C->suiv ;
+        simplification_douglas_peucker(C, 1) ;
         cell = C->first ;
     }
     fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */
