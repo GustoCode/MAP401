@@ -281,12 +281,13 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
     fprintf(f,"%%%%BoundingBox: 0 0 %d %d\n",L,H) ;
 
     Contour *C = ES->head ;
-    simplification_douglas_peucker(C, 1) ;
-    Cellule_Liste_Point *cell = C->first ;
+    Cellule_Liste_Point *cell ;
     int i ;
 
     for (i=0; i<ES->nbr ; i++) /* Parcours des contours */
     {
+        simplification_douglas_peucker(C, 2) ;
+        cell = C->first ;
         fprintf(f,"\n%0.2f %0.2f moveto \n",cell->data.x, H-cell->data.y );
         cell = cell->suiv ;
         while (cell) /* Tant que cell est non nul */ 
@@ -295,7 +296,6 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
             cell = cell->suiv ;
         }
         C = C->suiv ;
-        simplification_douglas_peucker(C, 1) ;
         cell = C->first ;
     }
     fprintf(f,"\nfill\n\nshowpage") ; /* pour remplir */

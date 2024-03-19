@@ -8,7 +8,7 @@
 
 Liste_Segment *creer_liste_Segment_vide()
 {
-    Liste_Point *LS = malloc(sizeof(Liste_Point)) ;
+    Liste_Segment *LS = malloc(sizeof(Liste_Point)) ;
     LS->taille = 0 ;
     LS->first =NULL ;
     LS->last = NULL ;
@@ -67,13 +67,14 @@ Liste_Segment *concatener_liste_Segment(Liste_Segment *L1, Liste_Segment *L2)
 void simplification_douglas_peucker(Liste_Point *L, double d)
 {
     Tableau_Pointeurs_Liste_Point TPLP ;
-    Cellule_Liste_Point **pointeurs = TPLP.pointeurs ;
-    pointeurs = (Liste_Point **)malloc(L->taille * sizeof(Liste_Point *));
-    pointeurs[0]=L->first ;
-    pointeurs[L->taille] = L->last ;
+    TPLP.taille = L->taille ;
+    TPLP.pointeurs = (Cellule_Liste_Point **)malloc(TPLP.taille * sizeof(Cellule_Liste_Point *));
+    //Cellule_Liste_Point **pointeurs = TPLP.pointeurs ;
+    TPLP.pointeurs[0]=L->first ;
+    TPLP.pointeurs[L->taille-1] = L->last ;
     
-    Liste_Segment *res = simplification_douglas_peucker_rec(L,0,L->taille, d,TPLP) ; /* Appelle de la simplification récursive sur le premier et le dernier élement de la liste */
-    free(pointeurs);
+    Liste_Segment *res = simplification_douglas_peucker_rec(L,0,(L->taille)-1, d,TPLP) ; /* Appelle de la simplification récursive sur le premier et le dernier élement de la liste */
+    free(TPLP.pointeurs);
     Conversion_Liste_Segment_Liste_Point(res,L) ;
     return ;
 }
@@ -84,8 +85,8 @@ Liste_Segment *simplification_douglas_peucker_rec(Liste_Point *L, int j1, int j2
     /* Mhh peut être que finalement rester sur une liste chainée ça reste plus interessant 
     Ok on fera un tableau de pointeurs*/
     Point val_j1 = TPLP.pointeurs[j1]->data ; /* Valeur de point J1 */
-    Point val_j2 = TPLP.pointeurs[j1]->data ; /* Valeur de point J2 */
-    Cellule_Liste_Point * jp = TPLP.pointeurs[j1]->suiv ; /* Pointeur de j1+1 */
+    Point val_j2 = TPLP.pointeurs[j2]->data ; /* Valeur de point J2 */
+    Cellule_Liste_Point * jp = TPLP.pointeurs[j1] ; /* Pointeur de j1+1 */
 
     Segment S = creerSegment(val_j1,val_j2);
     double dmax = 0 ;
@@ -103,7 +104,7 @@ Liste_Segment *simplification_douglas_peucker_rec(Liste_Point *L, int j1, int j2
             k=j;
             TPLP.pointeurs[k]=jp ; /* On enregistre dans le tableau la valeur du pointeur à l'indice k */
         }
-        jp=jp->suiv; /* Il faut compprendre la valeur jp "j pointeur" comme le pointeur de l'indice j */
+        if(j1!=j2) jp=jp->suiv; /* Il faut compprendre la valeur jp "j pointeur" comme le pointeur de l'indice j */
     }
     if (dmax<=d) 
     {
