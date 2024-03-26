@@ -1,0 +1,52 @@
+image_poly_tache6.pbm
+nombre de contours : 3
+Sans simplification :
+Nombre de segments : 488
+Simplification d = 1 :
+Nombre de segments : 69
+Simplification d =2 :
+Nombre de segments : 46
+
+
+elephant-gotlib
+Nombre de contours : 313
+Sans simplification :
+Nombre de segment : 115 564
+Simplification d = 1 :
+Nombre de segments : 13 373
+Simplification d=2 :
+Nombre de segments : 4 350
+
+goudyini-A
+Nombre de contours : 258
+Sans simplification :
+Nombre de segments : 73 444
+Simplification d = 1 :
+Nombre de segment : 5 382
+Simplification d = 2 :
+Nombre de segments : 2 733
+
+JoaquimHock-LesArbres
+Nombre de contours : 543
+Sans simplification :
+Nombre de segment de l'ensemble : 231 284
+Simplification d=1 :
+Nombre de segments: 27 466
+Simplification d =2:
+Nombre de segments : 13 676
+
+cheval
+Nombre de contours : 59
+Sans simplification : 
+Nombre de segments: 32 002
+Simplification d=1 :
+Nombre de segments : 1423
+
+papillon2
+Nombre de contours : 140
+Sans simplification:
+Nombre de segments: 18 212
+Simplification  d=1:
+Nombre de segments : 1 915
+Simplification d=2:
+Nombre de segments : 1041

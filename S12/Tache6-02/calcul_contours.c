@@ -286,7 +286,6 @@ void ecrire_contour_fichier_EPS(Image I,Ensemble_Contours *ES, FILE *f)
 
     for (i=0; i<ES->nbr ; i++) /* Parcours des contours */
     {
-        simplification_douglas_peucker(C, 2) ;
         cell = C->first ;
         fprintf(f,"\n%0.2f %0.2f moveto \n",cell->data.x, H-cell->data.y );
         cell = cell->suiv ;

@@ -64,7 +64,8 @@ Liste_Point *ajouter_element_liste_Point(Liste_Point *L, Point e)
 }
 
 Ensemble_Contours ajouter_tete_contours(Ensemble_Contours ES, Liste_Point *L)//ne pas ajouter une liste vide
-{
+{/* à modifier */
+
     L->suiv = ES.head ;
     ES.head = L ;
     ES.nbr ++ ;

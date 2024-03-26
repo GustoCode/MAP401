@@ -79,7 +79,6 @@ void simplification_douglas_peucker(Liste_Point *L, double d)
     return ;
 }
 
-
 Liste_Segment *simplification_douglas_peucker_rec(Liste_Point *L, int j1, int j2, double d,  Tableau_Pointeurs_Liste_Point TPLP)
 {
     /* Mhh peut être que finalement rester sur une liste chainée ça reste plus interessant 
@@ -87,7 +86,7 @@ Liste_Segment *simplification_douglas_peucker_rec(Liste_Point *L, int j1, int j2
     Point val_j1 = TPLP.pointeurs[j1]->data ; /* Valeur de point J1 */
     Point val_j2 = TPLP.pointeurs[j2]->data ; /* Valeur de point J2 */
     Cellule_Liste_Point * jp = TPLP.pointeurs[j1] ; /* Pointeur de j1+1 */
-
+    
     Segment S = creerSegment(val_j1,val_j2);
     double dmax = 0 ;
     int k = j1 ;
@@ -143,5 +142,18 @@ void Conversion_Liste_Segment_Liste_Point(Liste_Segment *LS, Liste_Point *LP)
     }
     ajouter_element_liste_Point(LP,LS->last->data.B); /* On ajoute le dernier Point  */
     return ;
+}
 
+void Simplification_Segment_Ensemble_Contours(Ensemble_Contours *ES, double d)
+{
+    ES->segment = 0;
+    Contour *C = ES->head ;
+    int i ;
+    for (i=0; i<ES->nbr ; i++) /* Parcours des contours */
+    {
+        simplification_douglas_peucker(C, d) ;
+        ES->segment += C->taille-1 ;
+        C = C->suiv ;
+    }
+    return ;
 }
