@@ -32,8 +32,6 @@ typedef struct Tableau_Point_
 	Point *tab;          /* (pointeur vers) le tableau des elements */
 } Tableau_Point;
 
-
-
 typedef struct Ensemble_Contours /* Liste chainée de contours */
 {
     int nbr ; /* Le nombre de contrours */
@@ -41,7 +39,6 @@ typedef struct Ensemble_Contours /* Liste chainée de contours */
     Contour *head ; /* pointeur vers le premier contours  */
     
 } Ensemble_Contours ;   
-
 
 /* creer une cellule de liste avec l'element v 
    renvoie le pointeur sur la cellule de liste creee
@@ -75,6 +72,9 @@ Liste_Point supprimer_premier_element_liste_Point(Liste_Point L) ;
 /* creer une sequence de points sous forme d'un tableau de points 
    a partir de la liste de points L */
 Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L) ;
+
+/* On on libère l'espace mémoire occupée par les cases du tableau */
+Tableau_Point vider_tableau(Tableau_Point T) ;
 
 /* On vide une sequence de son contenu et on la remplit du contenu du tableau
 Pour conserver le pointeur de la liste et ne perdre pas le chainage de l'ensemble de contours */

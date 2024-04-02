@@ -160,6 +160,15 @@ Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L)
 	return T;
 }
 
+/* On on libère l'espace mémoire occupée par les cases du tableau */
+Tableau_Point vider_tableau(Tableau_Point T)
+{
+    T.taille= 0 ;
+    free(T.tab);
+    T.tab = NULL ;
+    return T ;
+}
+
 
 /* plus nécessaire à supprimer plus tard */
 void vider_liste_remplir_par_tableau(Liste_Point *L, Tableau_Point T) 
