@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image test_contours test_distancePointSegment test_simplification_seg
+EXECUTABLES = test_image test_contours test_distancePointSegment test_simplification_seg test_bezier2
 
 
 #############################################################################
@@ -119,6 +119,20 @@ test_simplification_seg.o : test_simplification_seg.c simplification_contours.h 
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
+bezier.o : bezier.c geometrie_2d.h simplification_contours.h sequence_point.h 
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_simplification_seg"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier2.o : test_bezier2.c image.h calcul_contours.h sequence_point.h bezier.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module bezier"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
 
 
 ########################################################
@@ -146,6 +160,12 @@ test_distancePointSegment : test_distancePointSegment.o geometrie_2d.o
 	$(CC) $^ $(LDOPTS) -o $@
 
 test_simplification_seg : test_simplification_seg.o calcul_contours.o simplification_contours.o image.o sequence_point.o geometrie_2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+test_bezier2 : calcul_contours.o simplification_contours.o image.o sequence_point.o geometrie_2d.o test_bezier2.o bezier.o 
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
